@@ -1,0 +1,27 @@
+kind = "web"
+previewPath = "/"
+title = "cgstore — Luxury Perfume Store"
+version = "1.0.0"
+id = "artifacts/cgstore"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18884
+
+[services.development]
+run = "pnpm --filter @workspace/cgstore run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/cgstore", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/cgstore/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18884"
+BASE_PATH = "/"

@@ -1,0 +1,39 @@
+Actúa como un Diseñador de Interfaces (UI/UX) Senior y Desarrollador Frontend experto en e-commerce de lujo. Necesito crear una tienda online estática para una perfumería de alta gama llamada 'cgstore'. El objetivo es que la interfaz se vea increíblemente hermosa, sofisticada y con un acabado visual muy superior a la web estándar de 'axonperfumes.com'. No debe verse básica en absoluto.
+
+Todo debe programarse usando exclusivamente HTML5 nativo, CSS3 moderno avanzado y JavaScript ES6 puro, garantizando un despliegue 100% limpio en Vercel, Render o GitHub Pages sin errores de build.
+
+Requerimientos visuales y de diseño (CSS3 Avanzado):
+
+Paleta de Colores y Estética: Usa una base minimalista oscura y sofisticada. Fondo general claro (#fdfdfd), pero con acentos en negro profundo (#0d0d0d), tonos carbón y detalles metálicos en dorado premium (#d4af37 o #c5a880) para botones y precios.
+
+Efectos Modernos (UI):
+
+Las tarjetas de los productos y los menús deben usar bordes muy sutiles, esquinas suavemente redondeadas (8px a 12px) y sombras difuminadas complejas (box-shadow: 0 10px 30px rgba(0,0,0,0.04)) para dar sensación de flotación.
+
+Implementa efectos de transición suaves (transition: all 0.4s ease) en todos los botones y selects. Al pasar el mouse (hover) sobre una tarjeta de perfume, esta debe elevarse ligeramente o hacer un zoom suave e imperceptible en la imagen.
+
+El Header y la barra del carrito inferior deben usar un efecto de desenfoque de cristal (Glassmorphism) usando backdrop-filter: blur(10px) con un fondo blanco o negro semitransparente.
+
+Tipografía y Espaciado: Usa fuentes modernas y limpias (como 'Inter' o 'Montserrat'). Usa un tracking amplio (espaciado entre letras) en los títulos de las marcas para que se vea editorial y costoso. Deja bastante "aire" (padding) entre los elementos; el lujo se nota en el espacio.
+
+Diseño Mobile-First: Diseña la interfaz pensando exclusivamente en la fluidez del dedo en pantallas móviles. La rejilla de productos debe verse impecable en formato vertical de celular, usando CSS Grid flexible.
+
+Requerimientos de Lógica y Funcionalidad (JavaScript ES6):
+
+Base de Datos: Crea un Array con 6 perfumes de lujo (ej: Ble de Chanel, Sauvage de Dior, Good Girl, etc.) estructurados con ID, nombre, marca, género (Hombre, Mujer, Unisex), imagen (placeholders elegantes) y un array de variantes por mililitros (30ml, 50ml, 100ml) donde cada uno cambie el precio.
+
+Interacciones Fluidas:
+
+La barra de búsqueda predictiva y los botones de categorías (Todos, Hombre, Mujer) deben filtrar el catálogo con una animación de desvanecimiento suave (fade-in) en JS, no un cambio brusco.
+
+El menú desplegable para elegir el tamaño del perfume debe actualizar el precio en pantalla de manera instantánea con un ligero parpadeo estético.
+
+Checkout Inteligente de WhatsApp:
+
+Carrito dinámico que calcula totales de forma exacta.
+
+Barra flotante inferior de cristal que muestra el total. Al darle al botón verde elegante de 'Comprar', el sistema debe abrir una ventana modal interna bellamente diseñada que le pida al cliente sus datos: Nombre, Teléfono, Dirección de entrega y Ciudad.
+
+Una vez llenados, al dar clic final, genera el enlace limpio de la API de WhatsApp con el pedido perfectamente tabulado y estético para el dueño de la tienda.
+
+Entrégame el código estructurado en tres archivos (index.html, style.css, app.js), completamente modular, con comentarios elegantes y listo para producción."
