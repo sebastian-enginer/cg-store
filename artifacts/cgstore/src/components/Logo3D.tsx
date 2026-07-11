@@ -47,12 +47,16 @@ export function Logo3D({ size = 'sm' }: Logo3DProps) {
   };
 
   const isLg = size === 'lg';
-  const containerClass = isLg ? "w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80" : "w-12 h-12";
-  const innerClass = isLg ? "w-44 h-44 sm:w-60 sm:h-60 md:w-72 md:h-72 rounded-3xl mx-auto mt-2" : "w-10 h-10 rounded-[10px] mx-auto mt-1";
+  const containerClass = isLg
+    ? "w-[220px] h-[220px] sm:w-[280px] sm:h-[280px] md:w-[340px] md:h-[340px]"
+    : "w-9 h-9";
+  const innerClass = isLg
+    ? "w-[200px] h-[200px] sm:w-[256px] sm:h-[256px] md:w-[312px] md:h-[312px] rounded-3xl mx-auto mt-2"
+    : "w-8 h-8 rounded-[9px] mx-auto";
 
   return (
     <div 
-      style={{ perspective: isLg ? '1200px' : '800px' }} 
+      style={{ perspective: '1000px' }} 
       className={`flex items-center justify-center cursor-pointer ${containerClass}`}
       ref={rectRef}
       onMouseMove={handleMouseMove}
@@ -69,12 +73,12 @@ export function Logo3D({ size = 'sm' }: Logo3DProps) {
         className="w-full h-full"
       >
         <motion.div
-          animate={{ rotateY: [0, 8, 0, -8, 0] }}
-          transition={{
-            repeat: Infinity,
-            duration: 7,
-            ease: "easeInOut",
-          }}
+          animate={isLg ? { rotateY: 360 } : { rotateY: [0, 8, 0, -8, 0] }}
+          transition={
+            isLg
+              ? { repeat: Infinity, duration: 11, ease: "linear" }
+              : { repeat: Infinity, duration: 7, ease: "easeInOut" }
+          }
           className={`relative overflow-hidden bg-black border border-white/10 shadow-2xl ${innerClass}`}
           style={{ transformStyle: 'preserve-3d' }}
         >
