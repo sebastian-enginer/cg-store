@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { X, Package, ShoppingCart } from 'lucide-react';
+import { Package, ShoppingCart, ArrowLeft } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { InventoryPanel } from './InventoryPanel';
 import { OrdersPanel } from './OrdersPanel';
@@ -12,13 +12,13 @@ type AdminDashboardProps = {
 export function AdminDashboard({ onClose }: AdminDashboardProps) {
   return (
     <motion.div 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: 20 }}
-      className="fixed inset-0 z-50 bg-background/95 backdrop-blur-md overflow-y-auto"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="min-h-[100dvh] w-full bg-background flex flex-col"
     >
-      <div className="min-h-full p-4 md:p-8">
-        <div className="max-w-6xl mx-auto bg-card border border-border rounded-xl shadow-2xl overflow-hidden flex flex-col h-[calc(100vh-4rem)]">
+      <div className="flex-1 p-4 md:p-8">
+        <div className="max-w-6xl mx-auto bg-card border border-border rounded-xl shadow-2xl overflow-hidden flex flex-col h-[calc(100vh-2rem)] md:h-[calc(100vh-4rem)]">
           {/* Header */}
           <div className="flex items-center justify-between p-6 border-b border-border bg-muted/30">
             <div>
@@ -31,9 +31,10 @@ export function AdminDashboard({ onClose }: AdminDashboardProps) {
             </div>
             <button 
               onClick={onClose}
-              className="w-10 h-10 rounded-full bg-background border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:bg-accent hover:border-accent-foreground transition-all"
+              className="px-4 py-2 rounded-md bg-background border border-border flex items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground hover:text-foreground hover:bg-accent hover:border-accent-foreground transition-all"
             >
-              <X size={20} />
+              <ArrowLeft size={16} />
+              <span className="hidden md:inline">Volver a la Tienda</span>
             </button>
           </div>
 

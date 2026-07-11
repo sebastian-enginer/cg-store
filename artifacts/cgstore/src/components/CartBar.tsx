@@ -4,9 +4,10 @@ type CartBarProps = {
   cartCount: number;
   cartTotal: number;
   onCheckout: () => void;
+  onOpenCart: () => void;
 };
 
-export function CartBar({ cartCount, cartTotal, onCheckout }: CartBarProps) {
+export function CartBar({ cartCount, cartTotal, onCheckout, onOpenCart }: CartBarProps) {
   return (
     <AnimatePresence>
       {cartCount > 0 && (
@@ -18,7 +19,11 @@ export function CartBar({ cartCount, cartTotal, onCheckout }: CartBarProps) {
           className="fixed bottom-0 left-0 right-0 z-40 p-4 md:p-6"
         >
           <div className="max-w-4xl mx-auto glass-dark rounded-2xl p-4 flex items-center justify-between shadow-2xl">
-            <div className="flex items-center gap-4 text-white">
+            <button 
+              onClick={onOpenCart}
+              className="flex items-center gap-4 text-white bg-transparent border-none hover:opacity-80 transition-opacity text-left outline-none focus-visible:ring-2 focus-visible:ring-primary rounded-xl"
+              aria-label="Ver carrito"
+            >
               <div className="bg-primary/20 text-primary w-10 h-10 rounded-full flex items-center justify-center font-bold font-display">
                 {cartCount}
               </div>
@@ -30,7 +35,7 @@ export function CartBar({ cartCount, cartTotal, onCheckout }: CartBarProps) {
                   ${cartTotal}
                 </span>
               </div>
-            </div>
+            </button>
             
             <button
               onClick={onCheckout}

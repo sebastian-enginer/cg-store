@@ -2,7 +2,11 @@ import { useRef, MouseEvent, TouchEvent } from 'react';
 import { motion, useSpring, useTransform, useMotionValue } from 'framer-motion';
 import logoImg from '../assets/logo.jpeg';
 
-export function Logo3D() {
+type Logo3DProps = {
+  size?: 'sm' | 'lg';
+};
+
+export function Logo3D({ size = 'sm' }: Logo3DProps) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
@@ -23,8 +27,8 @@ export function Logo3D() {
       clientX = e.touches[0].clientX;
       clientY = e.touches[0].clientY;
     } else {
-      clientX = e.clientX;
-      clientY = e.clientY;
+      clientX = (e as MouseEvent).clientX;
+      clientY = (e as MouseEvent).clientY;
     }
 
     const mouseX = clientX - rect.left;
@@ -42,10 +46,14 @@ export function Logo3D() {
     y.set(0);
   };
 
+  const isLg = size === 'lg';
+  const containerClass = isLg ? "w-48 h-48 sm:w-64 sm:h-64 md:w-80 md:h-80" : "w-12 h-12";
+  const innerClass = isLg ? "w-44 h-44 sm:w-60 sm:h-60 md:w-72 md:h-72 rounded-3xl mx-auto mt-2" : "w-10 h-10 rounded-[10px] mx-auto mt-1";
+
   return (
     <div 
-      style={{ perspective: '800px' }} 
-      className="flex items-center justify-center cursor-pointer w-12 h-12"
+      style={{ perspective: isLg ? '1200px' : '800px' }} 
+      className={`flex items-center justify-center cursor-pointer ${containerClass}`}
       ref={rectRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
@@ -67,17 +75,16 @@ export function Logo3D() {
             duration: 7,
             ease: "easeInOut",
           }}
-          className="relative w-10 h-10 rounded-[10px] overflow-hidden bg-black border border-white/10 shadow-lg mx-auto mt-1"
+          className={`relative overflow-hidden bg-black border border-white/10 shadow-2xl ${innerClass}`}
           style={{ transformStyle: 'preserve-3d' }}
         >
           <img 
             src={logoImg} 
             alt="CG Store Logo" 
-            className="w-full h-full object-cover scale-[1.1] rounded-[10px]" 
+            className="w-full h-full object-cover scale-[1.1] rounded-[inherit]" 
           />
         </motion.div>
       </motion.div>
     </div>
   );
 }
-

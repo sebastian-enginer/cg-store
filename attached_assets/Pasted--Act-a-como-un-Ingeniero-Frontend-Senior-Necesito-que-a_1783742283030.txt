@@ -1,0 +1,29 @@
+"Actúa como un Ingeniero Frontend Senior. Necesito que apliques estos últimos cambios críticos al proyecto actual de cgstore, asegurando que compile al 100% sin un solo error de TypeScript o Vite, manteniendo un código limpio, estático y fácil de desplegar en Vercel o Render (sin los enredos de backend que complicaban mis proyectos anteriores).
+
+Implementa exactamente lo siguiente:
+
+REPARAR EL CARRITO DE COMPRAS (Urgente):
+
+Hay un bug en la interfaz: al agregar productos al carrito y presionar el botón/icono del carrito, la ventana modal o el desglose de compras no se está abriendo ni dejando ver los productos.
+
+Revisa y corrige el estado de apertura del carrito (el isOpen state o el componente Dialog/Sheet de shadcn). Asegúrate de que al hacer clic en el botón flotante del carrito o en el header, este se abra de inmediato e impecablemente en dispositivos móviles y escritorio.
+
+Ruta Exclusiva para el Administrador (/admin):
+
+Configura el enrutamiento para que el Panel de Administración cargue únicamente cuando se escriba directamente /admin en la barra de direcciones de la URL.
+
+En la ruta /admin debe desaparecer todo el frontend de la tienda (banner, catálogo, filtros, carrito). Solo debe mostrarse una pantalla de Login premium que pida la contraseña (admin123).
+
+Coloca una nota sutil abajo en el login que diga: 'Contraseña de prueba: admin123' y añade un botón elegante de 'Volver a la Tienda' que redirija a la raíz (/).
+
+Rediseño del Banner Principal (Hero Section) con el Logo:
+
+En la raíz de la tienda (/), remueve por completo la imagen de fondo genérica del perfume dorado. Pon un fondo negro sólido premium (#000000) o un gradiente oscuro de lujo.
+
+Coloca mi logo (images/logo.jpeg) en todo el centro en un tamaño destacado (ej: max-width: 380px).
+
+Aplica una animación continua con framer-motion para que el logo tenga un efecto de levitación suave (flotar verticalmente lento) y mantenga el efecto interactivo de inclinación 3D al pasar el cursor o tocarlo. Los textos de 'L'ESSENCE DU LUXE' deben quedar perfectamente alineados abajo.
+
+Código Seguro y Sin Enredos:
+
+No uses librerías externas de backend complejas. Todo el almacenamiento debe seguir siendo a través de localStorage. El código debe ser modular, directo y estar completamente optimizado para producción estática."

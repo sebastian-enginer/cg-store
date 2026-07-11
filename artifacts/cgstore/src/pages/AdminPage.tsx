@@ -1,25 +1,18 @@
-import { useState, useEffect } from 'react';
-import { AdminDashboard } from './AdminDashboard';
+import { useState } from 'react';
+import { Link, useLocation } from 'wouter';
+import { AdminDashboard } from '../components/admin/AdminDashboard';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Lock, X } from 'lucide-react';
+import { Lock, ArrowLeft } from 'lucide-react';
 
-export function AdminGate() {
-  const [isOpen, setIsOpen] = useState(false);
+export function AdminPage() {
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [password, setPassword] = useState('');
   const [error, setError] = useState(false);
-
-  useEffect(() => {
-    const handleOpen = () => setIsOpen(true);
-    window.addEventListener('open_admin_gate', handleOpen);
-    return () => window.removeEventListener('open_admin_gate', handleOpen);
-  }, []);
-
-  if (!isOpen) return null;
+  const [, setLocation] = useLocation();
 
   if (isUnlocked) {
-    return <AdminDashboard onClose={() => { setIsOpen(false); setIsUnlocked(false); }} />;
+    return <AdminDashboard onClose={() => setLocation('/')} />;
   }
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -35,16 +28,15 @@ export function AdminGate() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm p-4">
-      <div className="relative w-full max-w-sm bg-card border border-border rounded-xl shadow-2xl overflow-hidden">
-        <div className="absolute top-4 right-4">
-          <button 
-            onClick={() => setIsOpen(false)}
-            className="text-muted-foreground hover:text-foreground transition-colors"
-          >
-            <X size={20} />
-          </button>
-        </div>
+    <div className="min-h-[100dvh] bg-background text-foreground flex flex-col items-center justify-center p-4 selection:bg-primary/30 selection:text-primary-foreground relative">
+      <div className="absolute top-6 left-6">
+        <Link href="/" className="flex items-center gap-2 text-sm uppercase tracking-widest text-muted-foreground hover:text-foreground transition-colors">
+          <ArrowLeft size={16} />
+          Volver a la Tienda
+        </Link>
+      </div>
+
+      <div className="w-full max-w-sm bg-card border border-border rounded-xl shadow-2xl overflow-hidden">
         <div className="p-8 flex flex-col items-center">
           <div className="w-12 h-12 bg-primary/10 text-primary rounded-full flex items-center justify-center mb-6">
             <Lock size={24} />
@@ -78,6 +70,9 @@ export function AdminGate() {
             >
               Ingresar
             </Button>
+            <p className="text-[10px] text-muted-foreground/50 text-center uppercase tracking-widest mt-4">
+              Contraseña de prueba: admin123
+            </p>
           </form>
         </div>
       </div>
