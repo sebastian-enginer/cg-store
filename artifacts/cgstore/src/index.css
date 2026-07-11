@@ -51,15 +51,15 @@
 }
 
 :root {
-  --background: 0 0% 99%; /* #fdfdfd */
+  --background: 38 35% 97%; /* warm ivory/cream */
   --foreground: 0 0% 5%; /* #0d0d0d */
-  --border: 0 0% 90%;
-  --input: 0 0% 90%;
+  --border: 35 20% 88%;
+  --input: 35 20% 88%;
   --ring: 35 38% 64%; /* #c5a880 */
   
-  --card: 35 15% 99%; /* subtle warm tint white */
+  --card: 0 0% 100%; /* pure white cards */
   --card-foreground: 0 0% 5%;
-  --card-border: 0 0% 92%;
+  --card-border: 35 40% 85%; /* tenuous gold/bronze border */
   
   --popover: 0 0% 100%;
   --popover-foreground: 0 0% 5%;

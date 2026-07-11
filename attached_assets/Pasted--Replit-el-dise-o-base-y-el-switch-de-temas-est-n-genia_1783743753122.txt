@@ -1,0 +1,25 @@
+"Replit, el diseño base y el switch de temas están geniales, pero necesitamos pulir de forma urgente la sección del catálogo de productos para que se vea ultra profesional en ambos modos (claro y oscuro), y añadir una función de prueba social. Aplica los siguientes cambios:
+
+Diseño de Tarjetas de Productos Premium (ProductCard.tsx / ProductGrid.tsx):
+
+En Modo Claro: Elimina esos fondos grises genéricos que hacen ver la tienda desconectada. Haz que el fondo general sea un blanco marfil o crema muy sutil. Las tarjetas de los perfumes deben tener un fondo blanco puro con una sombra muy suave (box-shadow) y un borde milimétrico dorado muy tenue o bronce para que resalten con elegancia respecto al fondo.
+
+En Modo Oscuro: Las tarjetas deben usar un gris casi negro con un sutil efecto de cristal translúcido (glassmorphism) y un sutil brillo dorado al pasar el cursor (hover).
+
+Efecto Hover: Al pasar el mouse por encima de cualquier perfume, la tarjeta debe elevarse ligeramente con suavidad (transform: translateY(-5px)) para invitar a dar clic.
+
+Sistema de Reseñas y Calificaciones con Estrellas:
+
+En cada tarjeta de producto (abajo del precio) añade una visualización elegante de la calificación promedio (ej: un icono de estrella dorada con un texto sutil como 4.8 (12 reseñas)).
+
+Al abrir el detalle del producto o una sección expandida, permite que los clientes vean un desglose de opiniones y añade un pequeño formulario interactivo y limpio para 'Dejar una Reseña':
+
+Un selector de 1 a 5 estrellas (que se pinten de dorado al seleccionarlas).
+
+Un campo de texto para el comentario y otro para el nombre.
+
+Persistencia Local: Guarda estas reseñas en el localStorage (puedes estructurarlo dentro del mismo store de productos o en un reviewStore.ts) para que las opiniones que se escriban se queden guardadas de verdad y se muestren en tiempo real sin necesidad de bases de datos externas.
+
+Agrega unas 2 o 3 reseñas de ejemplo pre-cargadas de forma automática a los perfumes principales para que la tienda no se vea vacía al iniciar.
+
+Asegúrate de que el código compile de inmediato con cero errores de TypeScript y mantenga la perfecta fluidez de la página."
