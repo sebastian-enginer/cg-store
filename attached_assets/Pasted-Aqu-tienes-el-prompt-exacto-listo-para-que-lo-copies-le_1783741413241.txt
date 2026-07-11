@@ -1,0 +1,34 @@
+Aquí tienes el prompt exacto listo para que lo copies, le adjuntes la imagen del logo en el chat de Replit y se lo envíes todo junto:
+
+📝 Prompt para enviarle a Replit con el Logo Adjunto
+"Actúa como un Ingeniero Full-Stack Senior y Diseñador UI/UX experto en plataformas de e-commerce de lujo. Estoy adjuntando el logo oficial de mi tienda de perfumes de alta gama llamada 'cgstore'. Necesito que evoluciones el proyecto actual para convertirlo en una aplicación web altamente profesional, ultra confiable y autogestionable, manteniendo un despliegue 100% estático y seguro para Vercel o Render.
+
+Guarda esta imagen adjunta en la carpeta de imágenes del proyecto como 'images/logo.jpeg' (o la extensión que corresponda) y rediseña e implementa las siguientes características en los archivos (index.html, style.css, app.js):
+
+Logo Interactivo en 3D (Header Premium):
+
+En la parte superior del Header, añade este logo en un tamaño pequeño y elegante.
+
+Aplica estilos CSS3 avanzados (perspective, transform-style: preserve-3d) para crear una animación continua, sutil y elegante de rotación en el eje Y (giro 3D flotante). Al pasar el cursor (hover) o tocarlo en el móvil, el logo debe reaccionar inclinándose suavemente hacia la dirección del movimiento.
+
+Arquitectura de Datos Persistente (Simulación Base de Datos):
+
+Modifica la lógica para que el Array de productos inicial se guarde y se lea desde el 'localStorage' del navegador. Si está vacío, carga 6 perfumes de lujo por defecto. Esto permitirá que la tienda sea dinámica y editable en tiempo real sin requerir bases de datos en servidores externos.
+
+Panel de Administración Oculto e Intuitivo (Dashboard):
+
+Añade una sección de 'Panel de Admin' protegida por la contraseña 'admin123' (puede ser accesible desde un botón estético y discreto en el footer).
+
+Módulo de Inventario: El administrador debe poder ver la lista de perfumes, agregar nuevos perfumes (Nombre, Marca, Género, URL de imagen y múltiples variantes de tamaño con sus respectivos precios), editar precios existentes o eliminar productos. Al guardar, el catálogo del frontend debe actualizarse automáticamente mediante el localStorage.
+
+Módulo de Ventas y Pedidos: Cada vez que un cliente use el botón 'Pedir por WhatsApp', registra la compra localmente antes de redirigir. En el panel, muestra un historial con: ID de pedido, fecha, perfumes, total y estado (Pendiente / Completado).
+
+Diseño de Interfaz Premium y Factores de Confianza (UX/UI):
+
+Refuerza la confianza visual: Añade secciones sutiles como 'Garantía de Originalidad 100%', 'Envíos Asegurados a Todo el País' y 'Soporte Premium 24/7' con iconos minimalistas y tipografía elegante.
+
+La ventana modal para los datos del cliente antes de ir a WhatsApp debe lucir impecable (Nombre, Teléfono, Dirección y Ciudad).
+
+Mantén el efecto Glassmorphism (cristal translúcido) con 'backdrop-filter: blur(10px)' en el header, el panel y el carrito móvil para una experiencia cohesiva tipo Apple.
+
+Modifica y escribe el código completo de manera limpia, modular, asegurando que no se rompa ninguna funcionalidad del carrito dinámico ni los filtros de búsqueda en tiempo real."

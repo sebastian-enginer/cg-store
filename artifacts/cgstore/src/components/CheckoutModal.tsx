@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { CartItem } from '../hooks/useCart';
+import { addOrder } from '../lib/orderStore';
 
 const formSchema = z.object({
   fullName: z.string().min(2, { message: 'Nombre muy corto' }),
@@ -47,7 +48,23 @@ export function CheckoutModal({ isOpen, onClose, cart, cartTotal }: CheckoutModa
   });
 
   const onSubmit = (data: CheckoutFormValues) => {
-    // Build WhatsApp Message
+    // 1. Record order locally
+    addOrder({
+      customerName: data.fullName,
+      phone: data.phone,
+      address: data.address,
+      city: data.city,
+      total: cartTotal,
+      items: cart.map(item => ({
+        perfumeName: item.perfume.name,
+        brand: item.perfume.brand,
+        ml: item.variant.ml,
+        quantity: item.quantity,
+        unitPrice: item.variant.price
+      }))
+    });
+
+    // 2. Build WhatsApp Message
     const phoneNumber = '573001234567';
     let message = `*NUEVA ORDEN - CGSTORE*\n\n`;
     message += `*Cliente:* ${data.fullName}\n`;
@@ -56,10 +73,10 @@ export function CheckoutModal({ isOpen, onClose, cart, cartTotal }: CheckoutModa
     message += `*PRODUCTOS:*\n`;
 
     cart.forEach((item) => {
-      message += `- ${item.quantity}x ${item.perfume.name} (${item.perfume.brand}) - ${item.variant.ml}ml - $${item.variant.price * item.quantity}\n`;
+      message += `- ${item.quantity}x ${item.perfume.name} (${item.perfume.brand}) - ${item.variant.ml}ml - ${item.variant.price * item.quantity}\n`;
     });
 
-    message += `\n*TOTAL: $${cartTotal}*`;
+    message += `\n*TOTAL: ${cartTotal}*`;
 
     const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;

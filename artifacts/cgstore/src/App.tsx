@@ -6,12 +6,17 @@ import { FilterBar } from './components/FilterBar';
 import { ProductGrid } from './components/ProductGrid';
 import { CartBar } from './components/CartBar';
 import { CheckoutModal } from './components/CheckoutModal';
-import { perfumes } from './data/perfumes';
+import { TrustBadges } from './components/TrustBadges';
+import { Footer } from './components/Footer';
+import { AdminGate } from './components/admin/AdminGate';
+import { useProducts } from './hooks/useProducts';
 import { useCart } from './hooks/useCart';
 
 function Store() {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeCategory, setActiveCategory] = useState('Todos');
+
+  const { products } = useProducts();
 
   const {
     cart,
@@ -23,7 +28,7 @@ function Store() {
   } = useCart();
 
   const filteredPerfumes = useMemo(() => {
-    return perfumes.filter((perfume) => {
+    return products.filter((perfume) => {
       const matchesCategory =
         activeCategory === 'Todos' || perfume.gender === activeCategory;
       const matchesSearch =
@@ -31,7 +36,7 @@ function Store() {
         perfume.brand.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesCategory && matchesSearch;
     });
-  }, [searchQuery, activeCategory]);
+  }, [searchQuery, activeCategory, products]);
 
   return (
     <div className="min-h-screen bg-background text-foreground flex flex-col font-sans selection:bg-primary/30 selection:text-primary-foreground">
@@ -51,7 +56,11 @@ function Store() {
           perfumes={filteredPerfumes}
           onAddToCart={addToCart}
         />
+        
+        <TrustBadges />
       </main>
+
+      <Footer />
 
       <CartBar
         cartCount={cartCount}
@@ -65,6 +74,8 @@ function Store() {
         cart={cart}
         cartTotal={cartTotal}
       />
+      
+      <AdminGate />
     </div>
   );
 }
@@ -82,3 +93,4 @@ function App() {
 }
 
 export default App;
+

@@ -1,5 +1,6 @@
 import { ShoppingBag } from 'lucide-react';
 import { useCart } from '../hooks/useCart';
+import { Logo3D } from './Logo3D';
 
 type HeaderProps = {
   cartCount: number;
@@ -8,7 +9,9 @@ type HeaderProps = {
 export function Header({ cartCount }: HeaderProps) {
   return (
     <header className="fixed top-0 left-0 right-0 z-40 glass h-16 flex items-center px-4 md:px-8 justify-between transition-all duration-300">
-      <div className="flex-1" />
+      <div className="flex-1">
+        <Logo3D />
+      </div>
       <div className="flex-1 flex justify-center">
         <h1 className="text-2xl font-bold font-display tracking-[0.2em] text-foreground uppercase">
           c<span className="text-primary">g</span>store
@@ -27,3 +30,4 @@ export function Header({ cartCount }: HeaderProps) {
     </header>
   );
 }
+
