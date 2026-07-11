@@ -51,8 +51,11 @@ export function Logo3D({ size = 'sm' }: Logo3DProps) {
     ? "w-[220px] h-[220px] sm:w-[280px] sm:h-[280px] md:w-[340px] md:h-[340px]"
     : "w-9 h-9";
   const innerClass = isLg
-    ? "w-[200px] h-[200px] sm:w-[256px] sm:h-[256px] md:w-[312px] md:h-[312px] rounded-3xl mx-auto mt-2"
-    : "w-8 h-8 rounded-[9px] mx-auto";
+    ? "w-full h-full mx-auto"
+    : "w-8 h-8 rounded-[9px] mx-auto bg-black border border-white/10 shadow-2xl overflow-hidden";
+  const imageClass = isLg
+    ? "w-full h-full object-contain"
+    : "w-full h-full object-cover scale-[1.1] rounded-[inherit]";
 
   return (
     <div 
@@ -73,19 +76,19 @@ export function Logo3D({ size = 'sm' }: Logo3DProps) {
         className="w-full h-full"
       >
         <motion.div
-          animate={isLg ? { rotateY: 360 } : { rotateY: [0, 8, 0, -8, 0] }}
-          transition={
-            isLg
-              ? { repeat: Infinity, duration: 11, ease: "linear" }
-              : { repeat: Infinity, duration: 7, ease: "easeInOut" }
-          }
-          className={`relative overflow-hidden bg-black border border-white/10 shadow-2xl ${innerClass}`}
+          animate={{ rotateY: [-20, 20, -20] }}
+          transition={{
+            repeat: Infinity,
+            duration: isLg ? 6 : 7,
+            ease: "easeInOut",
+          }}
+          className={`relative ${innerClass}`}
           style={{ transformStyle: 'preserve-3d' }}
         >
           <img 
             src={logoImg} 
             alt="CG Store Logo" 
-            className="w-full h-full object-cover scale-[1.1] rounded-[inherit]" 
+            className={imageClass} 
           />
         </motion.div>
       </motion.div>

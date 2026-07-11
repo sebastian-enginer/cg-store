@@ -12,6 +12,7 @@ import { Footer } from './components/Footer';
 import { AdminPage } from './pages/AdminPage';
 import { useProducts } from './hooks/useProducts';
 import { useCart } from './hooks/useCart';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 function Store() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -96,13 +97,15 @@ function Store() {
 
 function App() {
   return (
-    <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
-      <Switch>
-        <Route path="/admin" component={AdminPage} />
-        <Route path="/" component={Store} />
-        <Route component={Store} />
-      </Switch>
-    </WouterRouter>
+    <ThemeProvider>
+      <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+        <Switch>
+          <Route path="/admin" component={AdminPage} />
+          <Route path="/" component={Store} />
+          <Route component={Store} />
+        </Switch>
+      </WouterRouter>
+    </ThemeProvider>
   );
 }
 

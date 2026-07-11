@@ -1,0 +1,21 @@
+"Replit, necesitamos pulir drásticamente la estética visual de la tienda principal (/) porque actualmente hay elementos que rompen la experiencia de lujo. Aplica las siguientes mejoras visuales con extrema precisión:
+
+Header Integrado y Translúcido (Header.tsx):
+
+Elimina por completo el fondo blanco sólido del header.
+
+Haz que tenga un fondo completamente transparente o un efecto de cristal translúcido oscuro (background: rgba(0, 0, 0, 0.5) con backdrop-filter: blur(12px)) para que se integre de forma invisible sobre el banner principal. El icono de la bolsa de compras debe pasar a color dorado o blanco para que resalte.
+
+Eliminar Parches y Corregir Animación del Logo Grande (HeroSection.tsx):
+
+Remueve por completo la caja de fondo o el contenedor con bordes redondeados oscuros que envuelve al logo grande. La imagen del logo (images/logo.jpeg) debe mezclarse directamente con el fondo negro puro del banner sin bordes visibles.
+
+Corrección de Giro: Actualmente el logo gira en 360 grados y el texto se lee al revés (en espejo) durante la mitad de la animación. Modifica el efecto de framer-motion o CSS para que la rotación sea un balanceo sutil de izquierda a derecha (un efecto péndulo o inclinación suave en el eje Y de -20deg a +20deg de manera infinita). Así el logo se verá dinámico, elegante y el nombre siempre será legible de frente.
+
+Implementar Interruptor de Modo Claro / Modo Oscuro (Tema Blanco y Negro):
+
+Añade un botón o icono minimalista y flotante muy elegante en la esquina superior del header (por ejemplo, un sol y una luna) que permita al usuario cambiar la interfaz de la tienda entre Modo Oscuro (fondo negro puro, tipografía dorada/blanca) y Modo Claro (fondo blanco puro premium, tipografía negra/dorada, adaptando el header a un cristal translúcido claro).
+
+Cuando el usuario cambie al Modo Claro, el fondo del banner principal (Hero) debe volverse blanco, pero asegúrate de que el logo siga luciendo impecable.
+
+Realiza estos refinamientos estéticos manteniendo el código completamente limpio de errores y respetando el sistema de rutas para /admin y el carrito."

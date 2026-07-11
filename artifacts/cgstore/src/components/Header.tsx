@@ -1,5 +1,6 @@
 import { ShoppingBag } from 'lucide-react';
 import { Logo3D } from './Logo3D';
+import { ThemeToggle } from './ThemeToggle';
 
 type HeaderProps = {
   cartCount: number;
@@ -8,14 +9,17 @@ type HeaderProps = {
 
 export function Header({ cartCount, onCartClick }: HeaderProps) {
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 glass h-16 flex items-center px-4 md:px-8 justify-between transition-all duration-300">
+    <header
+      className="fixed top-0 left-0 right-0 z-40 h-16 flex items-center px-4 md:px-8 justify-between transition-colors duration-300 bg-white/30 dark:bg-black/50 backdrop-blur-[12px] border-b border-black/5 dark:border-white/10"
+    >
       <div className="flex items-center">
         <Logo3D size="sm" />
       </div>
-      <div className="flex items-center">
+      <div className="flex items-center gap-3">
+        <ThemeToggle />
         <button 
           onClick={onCartClick}
-          className="relative cursor-pointer hover:text-primary transition-colors duration-300 bg-transparent border-none p-2 flex items-center justify-center"
+          className="relative cursor-pointer text-primary hover:text-primary/80 transition-colors duration-300 bg-transparent border-none p-2 flex items-center justify-center"
           aria-label="Abrir carrito"
         >
           <ShoppingBag className="w-6 h-6" strokeWidth={1.5} />
