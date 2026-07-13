@@ -1,14 +1,23 @@
 import { useOrders } from '../../hooks/useOrders';
-import { updateOrderStatus } from '../../lib/orderStore';
+import { updateOrderStatus, Order } from '../../lib/orderStore';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Calendar, User, MapPin } from 'lucide-react';
 
+const STATUS_LABELS: Record<Order['status'], string> = {
+  pending: 'Esperando Pago',
+  preparing: 'Empacando',
+  shipped: 'En Camino',
+  delivered: 'Entregado',
+};
+
 export function OrdersPanel() {
   const { orders } = useOrders();
 
-  const formatDate = (isoString: string) => {
-    return new Date(isoString).toLocaleString('es-CO', {
+  const formatDate = (dateString: string) => {
+    const parsed = new Date(dateString);
+    if (isNaN(parsed.getTime())) return dateString;
+    return parsed.toLocaleString('es-CO', {
       day: 'numeric',
       month: 'short',
       year: 'numeric',
@@ -44,20 +53,22 @@ export function OrdersPanel() {
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
                     <h4 className="font-display font-semibold text-primary tracking-widest">{order.id}</h4>
-                    <Badge variant={order.status === 'Completado' ? 'default' : 'secondary'} className="uppercase text-[10px] tracking-widest">
-                      {order.status}
+                    <Badge variant={order.status === 'delivered' ? 'default' : 'secondary'} className="uppercase text-[10px] tracking-widest">
+                      {STATUS_LABELS[order.status]}
                     </Badge>
                   </div>
                   <Select 
                     value={order.status} 
-                    onValueChange={(val: 'Pendiente' | 'Completado') => updateOrderStatus(order.id, val)}
+                    onValueChange={(val: Order['status']) => updateOrderStatus(order.id, val)}
                   >
-                    <SelectTrigger className="w-[140px] h-8 text-xs">
+                    <SelectTrigger className="w-[160px] h-8 text-xs">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Pendiente">Pendiente</SelectItem>
-                      <SelectItem value="Completado">Completado</SelectItem>
+                      <SelectItem value="pending">Esperando Pago</SelectItem>
+                      <SelectItem value="preparing">Empacando</SelectItem>
+                      <SelectItem value="shipped">En Camino</SelectItem>
+                      <SelectItem value="delivered">Entregado</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -65,7 +76,7 @@ export function OrdersPanel() {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-muted-foreground">
                   <div className="flex items-start gap-2">
                     <Calendar size={16} className="mt-0.5 text-primary/70" />
-                    <span>{formatDate(order.date)}</span>
+                    <span>{formatDate(order.createdAt)}</span>
                   </div>
                   <div className="flex items-start gap-2">
                     <User size={16} className="mt-0.5 text-primary/70" />

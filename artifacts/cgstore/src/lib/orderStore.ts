@@ -7,49 +7,67 @@ export type OrderItem = {
 };
 
 export type Order = {
-  id: string;
-  date: string;
+  id: string; // ID único tipo Shein (ej: CG-123456)
   customerName: string;
   phone: string;
   address: string;
   city: string;
-  items: OrderItem[];
   total: number;
-  status: 'Pendiente' | 'Completado';
+  items: OrderItem[];
+  status: "pending" | "preparing" | "shipped" | "delivered"; // Control real del estado
+  createdAt: string;
 };
 
-const STORE_KEY = 'cgstore_orders';
+// Cargar órdenes iniciales del localStorage si existen
+let orders: Order[] =
+  typeof window !== "undefined"
+    ? JSON.parse(localStorage.getItem("cgstore_orders") || "[]")
+    : [];
 
-export const getOrders = (): Order[] => {
-  try {
-    const stored = localStorage.getItem(STORE_KEY);
-    if (stored) {
-      return JSON.parse(stored);
-    }
-  } catch (e) {
-    console.error("Failed to parse orders from local storage", e);
-  }
-  
-  return [];
-};
-
-export const saveOrders = (orders: Order[]) => {
-  localStorage.setItem(STORE_KEY, JSON.stringify(orders));
-  window.dispatchEvent(new Event('cgstore_orders_changed'));
-};
-
-export const addOrder = (orderData: Omit<Order, 'id' | 'date' | 'status'>) => {
-  const orders = getOrders();
+export function addOrder(
+  orderData: Omit<Order, "id" | "status" | "createdAt">,
+): Order {
   const newOrder: Order = {
     ...orderData,
-    id: `ORD-${Date.now()}`,
-    date: new Date().toISOString(),
-    status: 'Pendiente',
+    id: `CG-${Math.floor(100000 + Math.random() * 900000)}`, // ID único real
+    status: "pending", // Arranca esperando pago
+    createdAt: new Date().toLocaleDateString("es-CO"),
   };
-  saveOrders([newOrder, ...orders]);
-};
 
-export const updateOrderStatus = (id: string, status: 'Pendiente' | 'Completado') => {
-  const orders = getOrders();
-  saveOrders(orders.map(o => o.id === id ? { ...o, status } : o));
-};
+  orders.push(newOrder);
+  saveToStorage();
+  return newOrder;
+}
+
+export function getOrders(): Order[] {
+  return orders;
+}
+
+// Esta función la vas a usar en tu panel de /admin para cambiar el estado con un clic
+export function updateOrderStatus(
+  orderId: string,
+  newStatus: Order["status"],
+): boolean {
+  const order = orders.find((o) => o.id === orderId || o.phone === orderId);
+  if (order) {
+    order.status = newStatus;
+    saveToStorage();
+    return true;
+  }
+  return false;
+}
+
+// Buscar orden para el cliente por ID o por Teléfono
+export function findOrder(searchKey: string): Order | undefined {
+  return orders.find(
+    (o) =>
+      o.id.toLowerCase() === searchKey.toLowerCase() || o.phone === searchKey,
+  );
+}
+
+function saveToStorage() {
+  if (typeof window !== "undefined") {
+    localStorage.setItem("cgstore_orders", JSON.stringify(orders));
+    window.dispatchEvent(new Event("cgstore_orders_changed"));
+  }
+}
