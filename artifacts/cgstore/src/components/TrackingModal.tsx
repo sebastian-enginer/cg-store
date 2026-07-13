@@ -1,12 +1,5 @@
-import { useState } from "react";
-import {
-  CreditCard,
-  Package,
-  Truck,
-  CheckCircle2,
-  Search,
-  X,
-} from "lucide-react";
+import { useState, useEffect } from "react";
+import { CreditCard, Package, Truck, CheckCircle2, Search } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -26,6 +19,16 @@ export function TrackingModal({
   const [foundOrder, setFoundOrder] = useState<Order | null>(null);
   const [error, setError] = useState("");
 
+  // 🌟 EFECTO LIVE: Cada vez que el modal se abra, refresca los datos de la orden actual si ya hay una buscada
+  useEffect(() => {
+    if (isOpen && searchKey.trim()) {
+      const updatedOrder = findOrder(searchKey.trim());
+      if (updatedOrder) {
+        setFoundOrder(updatedOrder);
+      }
+    }
+  }, [isOpen]);
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -34,7 +37,7 @@ export function TrackingModal({
       setFoundOrder(order);
     } else {
       setFoundOrder(null);
-      setError("No se encontro ningun pedido con ese ID o telefono.");
+      setError("No se encontró ningún pedido con ese ID o teléfono.");
     }
   };
 
@@ -48,13 +51,13 @@ export function TrackingModal({
     {
       key: "preparing",
       label: "Preparando Paquete",
-      desc: "Tu pedido esta siendo embalado con su empaque original.",
+      desc: "Tu pedido está siendo embalado con su empaque original.",
       icon: Package,
     },
     {
       key: "shipped",
       label: "En Camino",
-      desc: "El paquete va en ruta de entrega a tu ubicacion.",
+      desc: "El paquete va en ruta de entrega a tu ubicación.",
       icon: Truck,
     },
     {
@@ -65,7 +68,7 @@ export function TrackingModal({
     },
   ];
 
-  // Obtener el índice del estado actual de la orden
+  // Obtener el índice del estado actual de la orden de forma dinámica
   const currentStepIndex = foundOrder
     ? statusSteps.findIndex((step) => step.key === foundOrder.status)
     : 0;
@@ -92,7 +95,7 @@ export function TrackingModal({
           </div>
           <button
             type="submit"
-            className="h-11 px-4 bg-foreground text-background font-medium uppercase tracking-widest text-xs rounded-md hover:bg-primary transition-colors"
+            className="h-11 px-4 bg-foreground text-background font-medium uppercase tracking-widest text-xs rounded-md hover:bg-primary transition-colors cursor-pointer"
           >
             Buscar
           </button>
@@ -102,7 +105,7 @@ export function TrackingModal({
           <p className="text-center text-xs text-destructive mt-2">{error}</p>
         )}
 
-        {/* LÍNEA DE TIEMPO REAL TIPO SHEIN CONECTADA AL ESTADO */}
+        {/* LÍNEA DE TIEMPO REAL CONECTADA AL ESTADO */}
         {foundOrder && (
           <div className="mt-6 border-t border-border/60 pt-4 animate-in fade-in duration-300">
             <div className="text-center text-[10px] font-mono text-muted-foreground uppercase tracking-widest mb-4">
@@ -170,7 +173,6 @@ export function TrackingModal({
   );
 }
 
-// Input auxiliar rápido por si usas Shadcn original o componente nativo estilizado
 function Input(
   props: React.InputHTMLAttributes<HTMLInputElement> & { className?: string },
 ) {
