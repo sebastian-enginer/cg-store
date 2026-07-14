@@ -1,39 +1,39 @@
-import { useState, useEffect, useCallback, useMemo } from 'react';
-import { getReviews, addReview as addReviewToStore, Review, computeRatingSummary } from '../lib/reviewStore';
+import { useState, useEffect } from "react";
+import {
+  Review,
+  getStoredReviews,
+  computeRatingSummary,
+} from "../lib/reviewStore";
 
+// 1. El Hook principal que ya teníamos
 export function useReviews() {
   const [reviews, setReviews] = useState<Review[]>([]);
 
-  const load = useCallback(() => {
-    setReviews(getReviews());
-  }, []);
-
   useEffect(() => {
-    load();
-    const handleChange = (e: Event) => {
-      if (e.type === 'cgstore_reviews_changed' || (e instanceof StorageEvent && e.key === 'cgstore_reviews')) {
-        load();
-      }
-    };
-    window.addEventListener('cgstore_reviews_changed', handleChange);
-    window.addEventListener('storage', handleChange);
-    return () => {
-      window.removeEventListener('cgstore_reviews_changed', handleChange);
-      window.removeEventListener('storage', handleChange);
-    };
-  }, [load]);
+    // Cargar las reseñas reales guardadas al iniciar
+    setReviews(getStoredReviews());
 
-  const addReview = useCallback((input: Omit<Review, 'id' | 'createdAt'>) => {
-    addReviewToStore(input);
+    // Escuchar cuando se agrega una nueva reseña
+    const handleUpdate = () => {
+      setReviews(getStoredReviews());
+    };
+
+    window.addEventListener("reviews_updated", handleUpdate);
+
+    return () => {
+      window.removeEventListener("reviews_updated", handleUpdate);
+    };
   }, []);
 
-  return { reviews, addReview, refresh: load };
+  return { reviews };
 }
 
-export function useProductRating(productId: number) {
+// 2. 🔑 LA FUNCIÓN FALTANTE: Esto es lo que necesita ProductCard.tsx para calcular las estrellitas en la página principal
+export function useProductRating(productId: string) {
   const { reviews } = useReviews();
-  return useMemo(
-    () => computeRatingSummary(reviews.filter((r) => r.productId === productId)),
-    [reviews, productId],
-  );
+
+  const productReviews = reviews.filter((r) => r.productId === productId);
+  const { average, count } = computeRatingSummary(productReviews);
+
+  return { average, count };
 }
