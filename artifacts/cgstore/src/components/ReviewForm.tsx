@@ -1,76 +1,101 @@
-import { useState, FormEvent } from 'react';
-import { StarRating } from './StarRating';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { useReviews } from '../hooks/useReviews';
-import { Check } from 'lucide-react';
+import { useState } from "react";
+import { saveReview } from "../lib/reviewStore";
+import { Star } from "lucide-react";
 
 type ReviewFormProps = {
-  productId: number;
+  productId: string;
 };
 
 export function ReviewForm({ productId }: ReviewFormProps) {
-  const { addReview } = useReviews();
-  const [name, setName] = useState('');
-  const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+  const [name, setName] = useState("");
+  const [comment, setComment] = useState("");
+  const [rating, setRating] = useState(5);
+  const [hoveredRating, setHoveredRating] = useState<number | null>(null);
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const isValid = name.trim().length > 0 && comment.trim().length > 0 && rating > 0;
-
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isValid) return;
-    addReview({ productId, name: name.trim(), rating, comment: comment.trim() });
-    setName('');
-    setRating(0);
-    setComment('');
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 2500);
+    if (!name.trim() || !comment.trim()) return;
+
+    // Guardamos de verdad en el LocalStorage
+    saveReview({
+      productId,
+      name: name.trim(),
+      rating,
+      comment: comment.trim(),
+    });
+
+    // Limpiamos el formulario y mostramos éxito
+    setName("");
+    setComment("");
+    setRating(5);
+    setIsSubmitted(true);
+
+    // Ocultar el mensaje de éxito después de 3 segundos
+    setTimeout(() => setIsSubmitted(false), 3000);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-3 pt-4 border-t border-border">
-      <h4 className="text-sm font-display tracking-widest uppercase text-foreground">
-        Dejar una reseña
-      </h4>
+    <form onSubmit={handleSubmit} className="space-y-3">
+      {isSubmitted && (
+        <div className="p-2 bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs text-center rounded-lg animate-in fade-in">
+          ¡Gracias! Tu opinión real ha sido guardada.
+        </div>
+      )}
 
-      <div className="flex items-center gap-3">
-        <span className="text-xs text-muted-foreground">Tu calificación</span>
-        <StarRating rating={rating} size={20} interactive onChange={setRating} />
+      {/* Selector de Estrellas Interactivo */}
+      <div className="flex items-center gap-1.5">
+        <span className="text-[11px] text-muted-foreground uppercase tracking-wider mr-1">
+          Calificación:
+        </span>
+        <div className="flex items-center">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <button
+              key={star}
+              type="button"
+              onClick={() => setRating(star)}
+              onMouseEnter={() => setHoveredRating(star)}
+              onMouseLeave={() => setHoveredRating(null)}
+              className="p-1 hover:scale-110 transition-transform cursor-pointer"
+            >
+              <Star
+                className={`w-4 h-4 transition-colors ${
+                  star <= (hoveredRating ?? rating)
+                    ? "fill-primary text-primary"
+                    : "text-muted"
+                }`}
+              />
+            </button>
+          ))}
+        </div>
       </div>
 
-      <Input
-        placeholder="Tu nombre"
+      {/* Input de Nombre */}
+      <input
+        type="text"
+        placeholder="Tu nombre o apodo"
         value={name}
         onChange={(e) => setName(e.target.value)}
-        className="bg-transparent"
+        required
+        className="w-full h-9 px-3 bg-background/50 border border-border/60 rounded-lg text-xs outline-none focus:border-primary transition-colors text-foreground"
       />
 
-      <Textarea
-        placeholder="Comparte tu experiencia con este perfume..."
+      {/* Textarea de Comentario */}
+      <textarea
+        placeholder="¿Qué te pareció su aroma, duración y proyección?"
         value={comment}
         onChange={(e) => setComment(e.target.value)}
-        className="bg-transparent min-h-[80px]"
+        required
+        rows={3}
+        className="w-full p-3 bg-background/50 border border-border/60 rounded-lg text-xs outline-none focus:border-primary transition-colors resize-none text-foreground leading-relaxed"
       />
 
+      {/* Botón de Envío */}
       <button
         type="submit"
-        disabled={!isValid}
-        className={`w-full h-10 flex items-center justify-center text-sm font-medium tracking-widest uppercase rounded-md transition-all duration-300
-          ${
-            submitted
-              ? 'bg-primary text-primary-foreground'
-              : 'bg-foreground text-background hover:bg-primary hover:text-primary-foreground disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-foreground'
-          }`}
+        className="w-full h-9 bg-foreground text-background hover:bg-primary font-display font-medium uppercase tracking-widest text-[10px] rounded-lg transition-colors cursor-pointer"
       >
-        {submitted ? (
-          <span className="flex items-center gap-2">
-            <Check className="w-4 h-4" /> ¡Gracias por tu reseña!
-          </span>
-        ) : (
-          'Enviar reseña'
-        )}
+        Publicar Opinión
       </button>
     </form>
   );
