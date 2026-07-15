@@ -1,0 +1,27 @@
+Por favor, realiza un rediseño visual profundo (UI/UX) del proyecto "cgstore" para transformarlo de una plantilla básica a una boutique digital de ultra-lujo y perfumería fina. Sigue estrictamente estas directrices de diseño y código:
+
+1. PALETA DE COLORES (Luxury Dark & Gold):
+   - Cambia el fondo del body o contenedor principal a un gradiente radial de estudio fotográfico profundo en 'index.css' o 'App.tsx':
+     background: radial-gradient(circle at 50% 30%, #18181b 0%, #09090b 100%);
+   - Reemplaza los colores primarios brillantes por un color dorado sutil/bronce (tipo champagne) como acento (#D4AF37 o #C5A880) para las estrellas de reseñas, badges de "Original" y precios.
+   - Usa un gris muy suave semi-transparente para bordes y separadores (border-zinc-800/60 o border-foreground/10).
+
+2. REDISEÑO DEL BUSCADOR E ICONO DE BÚSQUEDA (Ultra-Profesional):
+   - Ubica la barra de búsqueda en el centro del header o en una sección destacada, dándole un ancho máximo elegante (max-w-md o max-w-lg).
+   - El input de búsqueda debe ser minimalista: un fondo semi-transparente oscuro (bg-zinc-900/40), efecto de vidrio esmerilado (backdrop-blur-md), bordes redondeados completos (rounded-full) o un diseño rectangular fino con bordes limpios (rounded-xl), y un borde muy sutil (border-zinc-800) que cambie a dorado cuando esté activo (focus:border-amber-500/50).
+   - El icono de buscar (Search de lucide-react) debe ir posicionado de forma elegante y limpia a la izquierda o derecha dentro del input. Dale un tamaño fino (w-4 h-4), un color gris atenuado (text-zinc-500) que cambie a dorado de lujo (group-hover:text-amber-500 o focus-within:text-amber-500) cuando el usuario interactúe con el buscador.
+
+3. TIPOGRAFÍA Y ESPACIADO DE ALTA COSTURA (Luxury Letter-Spacing):
+   - Para todos los títulos de marcas (perfume.brand) y secciones principales, aplica mayúsculas sostenidas, un grosor extra-delgado y espaciado de letras amplio: 'tracking-[0.25em] uppercase font-light text-amber-500/90'.
+   - Agrega aire al diseño: incrementa los paddings y márgenes verticales para que los elementos "respiren" y no se vea amontonado.
+
+4. SECCIÓN HERO DE BIENVENIDA (Hero Section):
+   - Al principio del catálogo en el Home (App.tsx), añade una sección Hero de bienvenida majestuosa y minimalista que presente a "Rowgold Store".
+   - Debe incluir un texto principal elegante: "Esculpe Tu Presencia", una breve descripción en tipografía fina y un botón con borde dorado ("Explorar Colección") que baje al catálogo.
+
+5. TARJETAS DE PRODUCTOS PREMIUM (ProductCard.tsx):
+   - Rediseña las tarjetas para usar el efecto de vidrio flotante (Glassmorphism): fondo 'bg-zinc-900/30 backdrop-blur-md', borde 'border-zinc-800/50' y bordes muy redondeados (rounded-2xl).
+   - Agrega un sutil resplandor dorado de fondo (blur-3xl) que aparezca únicamente cuando el usuario pase el mouse por encima (hover).
+   - Haz que la botella del perfume haga un suave efecto de zoom hacia adelante (scale-105) con una transición lenta y fluida al hacer hover.
+
+Aplica estos cambios con cuidado en App.tsx, ProductCard.tsx, index.css y los archivos relacionados para lograr un acabado de boutique digital exclusivo que funcione perfectamente en producción.

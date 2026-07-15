@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from "react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import { Perfume } from "../data/perfumes";
+import { Perfume, PerfumeVariant } from "../data/perfumes";
 import { StarRating } from "./StarRating";
 import { ReviewForm } from "./ReviewForm";
 import { useReviews } from "../hooks/useReviews";
@@ -22,12 +22,17 @@ export function ProductDetail({
   const { reviews } = useReviews();
   const { addToCart } = useCart();
 
-  const [selectedVariant, setSelectedVariant] = useState<any>(null);
+  const [selectedVariant, setSelectedVariant] = useState<PerfumeVariant | null>(
+    null,
+  );
   const [addedAnimation, setAddedAnimation] = useState(false);
 
+  // 🌟 Buscamos la variante de 100ml de forma predeterminada cuando se abre el perfume
   useEffect(() => {
     if (perfume && perfume.variants && perfume.variants.length > 0) {
-      setSelectedVariant(perfume.variants[0]);
+      const variant100 =
+        perfume.variants.find((v) => v.ml === 100) || perfume.variants[0];
+      setSelectedVariant(variant100);
     }
   }, [perfume]);
 
@@ -64,7 +69,7 @@ export function ProductDetail({
         <div className="overflow-y-auto p-6 md:p-8 space-y-8 scrollbar-thin">
           {/* SECCIÓN SUPERIOR: DETALLE DEL PRODUCTO */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-            {/* COLUMNA IZQUIERDA: IMAGEN (Corregida para que se vea) */}
+            {/* COLUMNA IZQUIERDA: IMAGEN */}
             <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-background/40 border border-border/40 flex items-center justify-center group shadow-inner">
               {perfumeImage ? (
                 <img
@@ -113,26 +118,14 @@ export function ProductDetail({
                 </p>
               </div>
 
-              {/* Selector de tamaños (ml) */}
-              {perfume.variants && perfume.variants.length > 0 && (
-                <div className="space-y-3">
-                  <span className="text-xs uppercase tracking-widest text-muted-foreground font-medium">
-                    Selecciona el Tamaño:
+              {/* 🏷️ INDICADOR PREMIUM DE TAMAÑO FIJO (100 ML) */}
+              {selectedVariant && (
+                <div className="space-y-2">
+                  <span className="text-xs uppercase tracking-widest text-muted-foreground font-medium block">
+                    Presentación Única:
                   </span>
-                  <div className="flex flex-wrap gap-2">
-                    {perfume.variants.map((v: any) => (
-                      <button
-                        key={v.ml}
-                        onClick={() => setSelectedVariant(v)}
-                        className={`px-4 py-2 text-xs font-mono rounded-lg border transition-all duration-200 cursor-pointer ${
-                          selectedVariant?.ml === v.ml
-                            ? "bg-foreground text-background border-foreground font-bold"
-                            : "bg-background/40 text-muted-foreground border-border"
-                        }`}
-                      >
-                        {v.ml} ml
-                      </button>
-                    ))}
+                  <div className="inline-flex items-center justify-center px-5 py-2.5 rounded-lg border border-primary/20 bg-primary/5 text-xs font-mono font-bold text-foreground tracking-wider">
+                    {selectedVariant.ml} ml
                   </div>
                 </div>
               )}

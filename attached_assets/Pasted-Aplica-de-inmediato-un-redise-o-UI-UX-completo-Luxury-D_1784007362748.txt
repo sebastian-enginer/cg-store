@@ -1,0 +1,28 @@
+Aplica de inmediato un rediseño UI/UX completo (Luxury Dark & Gold) sobre el catálogo y los estilos globales del proyecto "cgstore" ubicado en la carpeta `artifacts/cgstore`. 
+
+Por favor, modifica los siguientes archivos con precisión y de forma obligatoria:
+
+1. MODIFICA EL ARCHIVO: `artifacts/cgstore/src/index.css`
+   - Agrega o reescribe la regla base del body para que tenga un degradado radial oscuro que simule iluminación de estudio fotográfico premium:
+     body {
+       background: radial-gradient(circle at 50% 30%, #171719 0%, #080809 100%) !important;
+       color: #f4f4f5 !important;
+       min-height: 100vh;
+     }
+   - Agrega un scrollbar ultra-fino para toda la app:
+     ::-webkit-scrollbar { width: 5px; }
+     ::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); }
+     ::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.2); border-radius: 99px; }
+
+2. MODIFICA EL ARCHIVO: `artifacts/cgstore/src/components/ProductCard.tsx`
+   - Rediseña la tarjeta de producto completa para usar Glassmorphism premium. El contenedor principal debe tener las clases: `group relative bg-zinc-900/30 backdrop-blur-md border border-zinc-800/40 rounded-2xl p-5 transition-all duration-500 hover:border-amber-500/30 hover:shadow-[0_15px_35px_rgba(0,0,0,0.6)] hover:shadow-amber-500/5 cursor-pointer overflow-hidden flex flex-col justify-between`.
+   - Adentro de la tarjeta, añade un div decorativo para un resplandor dorado sutil al hacer hover: `<div className="absolute -top-12 -left-12 w-36 h-36 bg-amber-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />`.
+   - Modifica el contenedor de la imagen para que sea un fondo oscuro de cristal: `bg-black/25 border border-zinc-800/20`.
+   - La imagen del perfume debe hacer zoom en hover: `transition-transform duration-700 ease-out group-hover:scale-105`.
+   - Cambia los textos de la marca a dorado elegante: `text-amber-500/90 tracking-[0.25em] uppercase font-bold text-[10px]`.
+
+3. REVISA E INTEGRA LA BARRA DE BÚSQUEDA Y EL HERO EN: `artifacts/cgstore/src/App.tsx` (o tu componente principal del home)
+   - Agrega una sección "Hero" de bienvenida majestuosa arriba del catálogo que diga "Esculpe Tu Presencia" en tipografía fina y con tracking amplio, un subtítulo descriptivo elegante de la tienda "Rowgold Store" y un botón con borde dorado ("Explorar Colección").
+   - Rediseña la barra de búsqueda para que no se vea básica. Conviértela en un input flotante redondeado de diseño minimalista: fondo semi-transparente oscuro (`bg-zinc-900/40`), borde fino (`border-zinc-800/80`), y que al enfocar (`focus-within`) se ilumine el borde con un tono ámbar/dorado suave (`focus-within:border-amber-500/40`). Usa el icono de lupa de `lucide-react` integrado elegantemente a la izquierda del campo de texto.
+
+Ejecuta estas modificaciones ahora mismo de forma limpia sin alterar la lógica de las llamadas de datos ni el sistema de almacenamiento de reseñas.

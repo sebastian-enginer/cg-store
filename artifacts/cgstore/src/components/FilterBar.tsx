@@ -1,14 +1,9 @@
-import { Search } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-
-type FilterBarProps = {
+interface FilterBarProps {
   searchQuery: string;
   setSearchQuery: (val: string) => void;
   activeCategory: string;
   setActiveCategory: (val: string) => void;
-};
-
-const CATEGORIES = ['Todos', 'Hombre', 'Mujer', 'Unisex'];
+}
 
 export function FilterBar({
   searchQuery,
@@ -16,35 +11,79 @@ export function FilterBar({
   activeCategory,
   setActiveCategory,
 }: FilterBarProps) {
+  // Categorías de tu tienda
+  const categories = ["Todos", "Masculino", "Femenino", "Unisex"];
+
   return (
-    <div className="w-full max-w-6xl mx-auto px-4 py-8 flex flex-col md:flex-row items-center justify-between gap-6">
-      <div className="flex flex-wrap items-center justify-center gap-2 md:gap-4">
-        {CATEGORIES.map((cat) => (
+    <div className="w-full max-w-4xl mx-auto px-6 py-6 space-y-6">
+      {/* 🔍 BUSCADOR PREMIUM CENTRADO */}
+      <div className="w-full max-w-xl mx-auto">
+        <div className="group relative flex items-center bg-zinc-900/30 backdrop-blur-md border border-zinc-800/80 rounded-full px-5 py-3.5 transition-all duration-500 focus-within:border-amber-500/40 focus-within:shadow-[0_0_20px_rgba(245,158,11,0.05)]">
+          {/* Icono de Lupa Elegante (SVG Nativo) */}
+          <svg
+            className="w-4 h-4 text-zinc-500 group-focus-within:text-amber-500 transition-colors duration-300 mr-3 shrink-0"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+            />
+          </svg>
+
+          {/* Input de Búsqueda */}
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="¿Qué fragancia buscas hoy?"
+            className="w-full bg-transparent text-sm text-zinc-200 placeholder-zinc-500 outline-none font-light tracking-wide"
+          />
+
+          {/* Botón para limpiar texto escrito */}
+          {searchQuery && (
+            <button
+              onClick={() => setSearchQuery("")}
+              className="p-1 text-zinc-500 hover:text-amber-500 transition-colors rounded-full"
+            >
+              <svg
+                className="w-4 h-4"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth={2}
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          )}
+        </div>
+      </div>
+
+      {/* 🏷️ BOTONES DE CATEGORÍAS */}
+      <div className="flex flex-wrap justify-center gap-2">
+        {categories.map((category) => (
           <button
-            key={cat}
-            onClick={() => setActiveCategory(cat)}
-            className={`px-5 py-2 rounded-full text-sm tracking-widest uppercase transition-all duration-400 ease-out font-medium ${
-              activeCategory === cat
-                ? 'bg-primary text-primary-foreground shadow-md shadow-primary/20 scale-105 border border-primary'
-                : 'bg-transparent text-muted-foreground border border-transparent hover:border-border hover:text-foreground'
+            key={category}
+            onClick={() => setActiveCategory(category)}
+            className={`px-4 py-2 rounded-full text-[10px] tracking-wider uppercase transition-all duration-500 ${
+              activeCategory === category
+                ? "bg-amber-500 text-black font-bold shadow-lg shadow-amber-500/10 border border-amber-500"
+                : "bg-zinc-900/20 text-zinc-400 hover:text-zinc-200 border border-zinc-900 hover:border-zinc-800"
             }`}
           >
-            {cat}
+            {category}
           </button>
         ))}
-      </div>
-      
-      <div className="relative w-full md:w-72">
-        <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-          <Search className="w-4 h-4" />
-        </div>
-        <Input
-          type="text"
-          placeholder="Buscar perfume..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full pl-10 bg-transparent border-b border-x-0 border-t-0 rounded-none border-border focus-visible:ring-0 focus-visible:border-primary px-0 pb-2 text-foreground transition-colors duration-300 shadow-none placeholder:text-muted-foreground/60"
-        />
       </div>
     </div>
   );

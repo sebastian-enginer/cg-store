@@ -1,10 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
-import { Perfume, PerfumeVariant } from '../data/perfumes';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Check } from 'lucide-react';
-import { StarRating } from './StarRating';
-import { ProductDetail } from './ProductDetail';
-import { useProductRating } from '../hooks/useReviews';
+import { useState, useEffect, useRef } from "react";
+import { Perfume, PerfumeVariant } from "../data/perfumes";
+import { Check } from "lucide-react";
+import { StarRating } from "./StarRating";
+import { ProductDetail } from "./ProductDetail";
+import { useProductRating } from "../hooks/useReviews";
 
 type ProductCardProps = {
   perfume: Perfume;
@@ -12,7 +11,11 @@ type ProductCardProps = {
 };
 
 export function ProductCard({ perfume, onAddToCart }: ProductCardProps) {
-  const [selectedVariant, setSelectedVariant] = useState<PerfumeVariant>(perfume.variants[0]);
+  // 🌟 Buscamos la variante de 100ml automáticamente. Si no existe, usamos la primera disponible.
+  const variant100 =
+    perfume.variants.find((v) => v.ml === 100) || perfume.variants[0];
+  const [selectedVariant, setSelectedVariant] =
+    useState<PerfumeVariant>(variant100);
   const [isAdded, setIsAdded] = useState(false);
   const [isDetailOpen, setIsDetailOpen] = useState(false);
   const priceRef = useRef<HTMLDivElement>(null);
@@ -21,12 +24,19 @@ export function ProductCard({ perfume, onAddToCart }: ProductCardProps) {
   // Trigger pulse animation when price changes
   useEffect(() => {
     if (priceRef.current) {
-      priceRef.current.classList.remove('animate-pulse-price');
+      priceRef.current.classList.remove("animate-pulse-price");
       // trigger reflow
       void priceRef.current.offsetWidth;
-      priceRef.current.classList.add('animate-pulse-price');
+      priceRef.current.classList.add("animate-pulse-price");
     }
   }, [selectedVariant.price]);
+
+  // Actualizar la variante si cambia el perfume recibido
+  useEffect(() => {
+    const active100 =
+      perfume.variants.find((v) => v.ml === 100) || perfume.variants[0];
+    setSelectedVariant(active100);
+  }, [perfume]);
 
   const handleAdd = () => {
     onAddToCart(perfume, selectedVariant);
@@ -76,29 +86,24 @@ export function ProductCard({ perfume, onAddToCart }: ProductCardProps) {
             </p>
           </div>
 
-          <div className="flex items-end justify-between mb-4 mt-auto" onClick={(e) => e.stopPropagation()}>
-            <div className="w-1/2">
-              <Select
-                value={selectedVariant.ml.toString()}
-                onValueChange={(val) => {
-                  const variant = perfume.variants.find((v) => v.ml.toString() === val);
-                  if (variant) setSelectedVariant(variant);
-                }}
-              >
-                <SelectTrigger className="w-full h-9 bg-transparent border-border focus:ring-primary/20 text-sm">
-                  <SelectValue placeholder="Size" />
-                </SelectTrigger>
-                <SelectContent>
-                  {perfume.variants.map((v) => (
-                    <SelectItem key={v.ml} value={v.ml.toString()}>
-                      {v.ml} ml
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+          <div
+            className="flex items-end justify-between mb-4 mt-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* 🏷️ INDICADOR PREMIUM DE TAMAÑO FIJO (100 ML) */}
+            <div className="w-[45%] flex flex-col">
+              <span className="text-[10px] text-muted-foreground uppercase tracking-wider block mb-1">
+                Tamaño
+              </span>
+              <div className="h-9 flex items-center justify-center border border-primary/20 dark:border-white/10 rounded-md bg-primary/5 dark:bg-white/[0.02] text-xs font-medium text-foreground tracking-wide">
+                {selectedVariant.ml} ml
+              </div>
             </div>
+
             <div className="text-right">
-              <span className="text-xs text-muted-foreground block mb-0.5">Precio</span>
+              <span className="text-xs text-muted-foreground block mb-0.5">
+                Precio
+              </span>
               <div
                 ref={priceRef}
                 className="text-lg font-bold font-display text-primary tracking-wide transition-colors"
@@ -111,7 +116,9 @@ export function ProductCard({ perfume, onAddToCart }: ProductCardProps) {
           <div className="flex items-center gap-1.5 mb-4">
             <StarRating rating={average} size={13} />
             <span className="text-xs text-muted-foreground">
-              {count > 0 ? `${average.toFixed(1)} (${count} reseña${count === 1 ? '' : 's'})` : 'Sin reseñas aún'}
+              {count > 0
+                ? `${average.toFixed(1)} (${count} reseña${count === 1 ? "" : "s"})`
+                : "Sin reseñas aún"}
             </span>
           </div>
 
@@ -124,8 +131,8 @@ export function ProductCard({ perfume, onAddToCart }: ProductCardProps) {
             className={`w-full h-11 flex items-center justify-center text-sm font-medium tracking-widest uppercase transition-all duration-400 ease-out rounded-md
               ${
                 isAdded
-                  ? 'bg-primary text-primary-foreground'
-                  : 'bg-foreground text-background hover:bg-primary hover:text-primary-foreground'
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-foreground text-background hover:bg-primary hover:text-primary-foreground"
               }
             `}
           >
@@ -134,13 +141,17 @@ export function ProductCard({ perfume, onAddToCart }: ProductCardProps) {
                 <Check className="w-4 h-4" /> Agregado
               </span>
             ) : (
-              'Agregar al carrito'
+              "Agregar al carrito"
             )}
           </button>
         </div>
       </div>
 
-      <ProductDetail perfume={perfume} isOpen={isDetailOpen} onClose={() => setIsDetailOpen(false)} />
+      <ProductDetail
+        perfume={perfume}
+        isOpen={isDetailOpen}
+        onClose={() => setIsDetailOpen(false)}
+      />
     </>
   );
 }
